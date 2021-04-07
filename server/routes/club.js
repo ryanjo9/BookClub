@@ -6,7 +6,7 @@ const router = express.Router()
 const mappers = require('../helpers/mappers')
 
 // create club
-router.post('/:id?',
+router.post('/',
   auth.verifyToken,
   datasources.user.User.verify,
   async (req, res) => {

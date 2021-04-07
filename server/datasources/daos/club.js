@@ -18,6 +18,10 @@ const clubSchema = new mongoose.Schema({
   members: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User'
+  }],
+  books: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Book'
   }]
 })
 

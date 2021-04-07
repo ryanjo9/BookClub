@@ -17,7 +17,10 @@ const createClub = async ({ mod, activeBook, name, frequency, members }) => {
 const getClubById = async (id) => {
   return daos.Club.findOne({
     _id: id
-  }).populate('mod').populate('members')
+  }).populate('mod')
+    .populate('members')
+    .populate('activeBook')
+    .populate('books')
 }
 
 const getUserClubs = async (user) => {
@@ -25,11 +28,18 @@ const getUserClubs = async (user) => {
     members: {
       $in: [user]
     }
-  }).populate('mod').populate('members')
+  }).populate('mod')
+    .populate('members')
+    .populate('activeBook')
+    .populate('books')
 }
 
 const addUserToClub = async (user, clubId) => {
-  const club = await daos.Club.findById(clubId).populate('mod').populate('members')
+  const club = await daos.Club.findById(clubId)
+    .populate('mod')
+    .populate('members')
+    .populate('activeBook')
+    .populate('books')
 
   if (!club) {
     throw new Error('Could not find club')

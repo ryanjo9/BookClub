@@ -43,7 +43,21 @@ const clubs = {
   }
 }
 
+const books = {
+  testBook1: {
+    title: 'test book 1',
+    chapters: 10,
+    imgsrc: 'https://www.google.com'
+  },
+  testBook2: {
+    title: 'test book 2',
+    chapters: 10,
+    imgsrc: 'https://www.google.com'
+  }
+}
+
 module.exports = {
   ...users,
-  ...clubs
+  ...clubs,
+  ...books
 }

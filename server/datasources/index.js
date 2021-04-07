@@ -1,3 +1,4 @@
+const book = require('./book')
 const club = require('./club')
 const user = require('./user')
 
@@ -14,6 +15,7 @@ const closeMongoConnection = async () => {
 
 module.exports = {
   closeMongoConnection,
+  book,
   club,
   user
 }
