@@ -53,7 +53,7 @@ router.get('/',
 )
 
 // add user to club
-router.put('/member/:id',
+router.put('/:id/member',
   auth.verifyToken,
   datasources.user.User.verify,
   async (req, res) => {

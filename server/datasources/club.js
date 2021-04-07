@@ -47,5 +47,5 @@ module.exports = {
   getClubById,
   getUserClubs,
   addUserToClub,
-  club: daos.Club
+  Club: daos.Club
 }
