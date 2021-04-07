@@ -1,26 +1,51 @@
-const mongoose = require('mongoose')
+const daos = require('./daos')
 
-const clubSchema = new mongoose.Schema({
-  activeBook: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Book'
-  },
-  mod: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  },
-  name: String,
-  frequency: String,
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  members: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  }]
-})
+const createClub = async ({ mod, activeBook, name, frequency, members }) => {
+  const club = new daos.Club({
+    mod,
+    activeBook,
+    name,
+    frequency,
+    members
+  })
 
-const Club = mongoose.model('Club', clubSchema)
+  await club.save()
 
-module.exports = Club
+  return club
+}
+
+const getClubById = async (id) => {
+  return daos.Club.findOne({
+    _id: id
+  }).populate('mod').populate('members')
+}
+
+const getUserClubs = async (user) => {
+  return daos.Club.find({
+    members: {
+      $in: [user]
+    }
+  }).populate('mod').populate('members')
+}
+
+const addUserToClub = async (user, clubId) => {
+  const club = await daos.Club.findById(clubId).populate('mod').populate('members')
+
+  if (!club) {
+    throw new Error('Could not find club')
+  }
+
+  club.members.push(user)
+
+  await club.save()
+
+  return club
+}
+
+module.exports = {
+  createClub,
+  getClubById,
+  getUserClubs,
+  addUserToClub,
+  club: daos.Club
+}

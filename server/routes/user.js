@@ -22,9 +22,8 @@ router.post('/', async (req, res) => {
 
   try {
     //  check to see if username already exists
-    const existingUser = await datasources.user.findOne({
-      username: req.body.username
-    })
+    const existingUser = await datasources.user.findByUsername(req.body.username)
+
     if (existingUser) {
       return res.status(403).send({
         message: 'That username already exists.'
@@ -32,12 +31,12 @@ router.post('/', async (req, res) => {
     }
 
     // create new user
-    const user = new datasources.user({
+    const user = await datasources.user.createUser({
       username: req.body.username,
       password: req.body.password,
       name: req.body.name
     })
-    await user.save()
+
     login(user, res)
   } catch (error) {
     console.log(error)
@@ -55,9 +54,8 @@ router.post('/login', async (req, res) => {
 
   try {
     //  lookup user record
-    const existingUser = await datasources.user.findOne({
-      username: req.body.username
-    })
+    const existingUser = await datasources.user.findByUsername(req.body.username)
+
     if (!existingUser) {
       return res.status(403).send({
         message: 'The username or password is wrong.'
@@ -97,15 +95,14 @@ async function login (user, res) {
 }
 
 // Logout
-router.delete('/', auth.verifyToken, datasources.user.verify, async (req, res) => {
-  req.user.removeToken(req.token)
-  await req.user.save()
+router.delete('/', auth.verifyToken, datasources.user.User.verify, async (req, res) => {
+  await datasources.user.logOut(req.user, req.token)
   res.clearCookie('token')
   res.sendStatus(200)
 })
 
 // Get current user if logged in.
-router.get('/', auth.verifyToken, datasources.user.verify, async (req, res) => {
+router.get('/', auth.verifyToken, datasources.user.User.verify, async (req, res) => {
   return res.send(req.user)
 })
 
