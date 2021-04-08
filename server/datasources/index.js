@@ -1,5 +1,6 @@
 const book = require('./book')
 const club = require('./club')
+const comment = require('./comment')
 const post = require('./post')
 const user = require('./user')
 
@@ -18,6 +19,7 @@ module.exports = {
   closeMongoConnection,
   book,
   club,
+  comment,
   post,
   user
 }

@@ -56,7 +56,18 @@ const mapPost = (post) => {
     author: mapUser(post.author),
     text: post.text,
     created: post.created,
-    book: mapBook(post.book)
+    book: mapBook(post.book),
+    comments: post.comments
+  }
+}
+
+const mapComment = (comment) => {
+  return {
+    id: comment._id,
+    author: mapUser(comment.author),
+    text: comment.text,
+    created: comment.created,
+    post: mapPost(comment.post)
   }
 }
 
@@ -64,5 +75,6 @@ module.exports = {
   mapClub,
   mapBook,
   mapUser,
-  mapPost
+  mapPost,
+  mapComment
 }

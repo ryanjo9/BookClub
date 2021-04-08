@@ -63,4 +63,16 @@ router.get('/user',
   }
 )
 
+router.get('/:postId',
+  auth.verifyToken,
+  datasources.user.User.verify,
+  async (req, res) => {
+    const { params } = req
+
+    const posts = await datasources.post.getPostById(params.postId)
+
+    return res.send(mappers.mapPost(posts))
+  }
+)
+
 module.exports = router

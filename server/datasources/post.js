@@ -21,7 +21,7 @@ const getBookPosts = async (bookId) => {
 }
 
 const getPostById = async (id) => {
-  return daos.Post.findById(id)
+  return daos.Post.findById(id).populate('author').populate('comments')
 }
 
 const getUserPosts = async (user) => {
