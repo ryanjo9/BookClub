@@ -1,5 +1,6 @@
 const book = require('./book')
 const club = require('./club')
+const post = require('./post')
 const user = require('./user')
 
 const mongoose = require('mongoose')
@@ -17,5 +18,6 @@ module.exports = {
   closeMongoConnection,
   book,
   club,
+  post,
   user
 }

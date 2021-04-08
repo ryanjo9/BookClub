@@ -58,4 +58,23 @@ router.put('/:bookId/complete',
   }
 )
 
+router.get('/:bookId',
+  auth.verifyToken,
+  datasources.user.User.verify,
+  async (req, res) => {
+    const { params } = req
+
+    const book = await datasources.book.getBookById(params.bookId)
+
+    if (!book) {
+      res.status(404)
+      return res.send({
+        err: 'Book not found'
+      })
+    }
+
+    return res.send(mappers.mapBook(book))
+  }
+)
+
 module.exports = router

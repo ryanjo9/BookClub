@@ -42,9 +42,14 @@ const completeBook = async (bookId) => {
   return book
 }
 
+const getBookById = async (bookId) => {
+  return daos.Book.findById(bookId)
+}
+
 module.exports = {
   createBook,
   updateProgress,
   completeBook,
+  getBookById,
   Book: daos.Book
 }

@@ -11,7 +11,11 @@ const bookSchema = new mongoose.Schema({
     default: false
   },
   imgsrc: String,
-  chapters: Number
+  chapters: Number,
+  posts: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Post'
+  }]
 })
 
 const Book = mongoose.model('Book', bookSchema)

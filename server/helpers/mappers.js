@@ -17,13 +17,23 @@ const mapBook = (book) => {
     return null
   }
 
+  let posts
+  if (book.posts && book.posts.length) {
+    if (book.posts[0].id) {
+      posts = book.posts.map(mapPost)
+    } else {
+      posts = book.posts
+    }
+  }
+
   return {
     id: book._id,
     title: book.title,
     progress: book.progress,
     complete: book.complete,
     imgsrc: book.imgsrc,
-    chapters: book.chapters
+    chapters: book.chapters,
+    posts
   }
 }
 
@@ -40,8 +50,19 @@ const mapClub = (club) => {
   }
 }
 
+const mapPost = (post) => {
+  return {
+    id: post._id,
+    author: mapUser(post.author),
+    text: post.text,
+    created: post.created,
+    book: mapBook(post.book)
+  }
+}
+
 module.exports = {
   mapClub,
   mapBook,
-  mapUser
+  mapUser,
+  mapPost
 }
