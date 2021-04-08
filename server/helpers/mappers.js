@@ -6,7 +6,7 @@ const mapUser = (user) => {
   }
 
   return {
-    id: user.id,
+    id: user._id,
     username: user.username,
     name: user.name
   }
@@ -17,15 +17,6 @@ const mapBook = (book) => {
     return null
   }
 
-  let posts
-  if (book.posts && book.posts.length) {
-    if (book.posts[0].id) {
-      posts = book.posts.map(mapPost)
-    } else {
-      posts = book.posts
-    }
-  }
-
   return {
     id: book._id,
     title: book.title,
@@ -33,7 +24,9 @@ const mapBook = (book) => {
     complete: book.complete,
     imgsrc: book.imgsrc,
     chapters: book.chapters,
-    posts
+    posts: book.posts.map(id => {
+      return { id }
+    })
   }
 }
 
@@ -45,7 +38,9 @@ const mapClub = (club) => {
     activeBook: mapBook(club.activeBook),
     mod: mapUser(club.mod),
     members: club.members.map(mapUser),
-    books: club.books.map(mapBook),
+    books: club.books.map(id => {
+      return { id }
+    }),
     created: club.created
   }
 }
@@ -56,8 +51,12 @@ const mapPost = (post) => {
     author: mapUser(post.author),
     text: post.text,
     created: post.created,
-    book: mapBook(post.book),
-    comments: post.comments
+    book: {
+      id: post.book
+    },
+    comments: post.comments.map(id => {
+      return { id }
+    })
   }
 }
 
@@ -67,7 +66,9 @@ const mapComment = (comment) => {
     author: mapUser(comment.author),
     text: comment.text,
     created: comment.created,
-    post: mapPost(comment.post)
+    post: {
+      id: comment.post._id
+    }
   }
 }
 

@@ -4,7 +4,7 @@ const createPost = async (post, user) => {
   const dbPost = new daos.Post({
     author: user,
     text: post.text,
-    book: post.book
+    book: post.book.toObject()
   })
 
   await dbPost.save()

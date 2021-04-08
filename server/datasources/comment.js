@@ -4,7 +4,7 @@ const createComment = async (comment, user) => {
   const dbComment = new daos.Comment({
     author: user,
     text: comment.text,
-    post: comment.post
+    post: comment.post.toObject()
   })
 
   await dbComment.save()
@@ -25,7 +25,6 @@ const getCommentById = async (id) => {
 }
 
 const getUserComments = async (user) => {
-  console.log('user: ', user)
   return daos.Comment.find({
     author: user
   }).populate('author')
