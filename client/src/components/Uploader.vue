@@ -4,19 +4,18 @@
     <div class="modal-wrapper">
       <div class="modal-container">
         <div class="modal-header">
-          <h1 class="modal-title">Upload</h1>
+          <h1 class="modal-title">Create Club</h1>
         </div>
         <div class="modal-body">
           <p v-if="error" class="error">{{error}}</p>
           <form @submit.prevent="upload">
-            <input v-model="title" placeholder="Title">
-            <p></p>
-            <textarea v-model="description" placeholder="Description"></textarea>
-            <p></p>
-            <input type="file" name="photo" @change="fileChanged">
-            <p></p>
+            <p>Club Name</p>
+            <input v-model="name" placeholder="Club Name">
+            <p>Book Info</p>
+            <input v-model="title" placeholder="Book Title">
+            <input v-model="imgsrc" placeholder="Link to book image">
             <button type="button" @click="close" class="pure-button">Close</button>
-            <button type="submit" class="pure-button pure-button-secondary">Upload</button>
+            <button type="submit" class="pure-button pure-button-secondary">Create</button>
           </form>
         </div>
       </div>
@@ -33,30 +32,29 @@ export default {
   },
   data() {
     return {
-      title: '',
-      description: '',
-      file: null,
       error: '',
+      name: '',
+      title: '',
+      imgsrc: ''
       }
   },
   methods: {
-    fileChanged(event) {
-      this.file = event.target.files[0]
-    },
     close() {
       this.$emit('escape');
     },
     async upload() {
       try {
-        const formData = new FormData();
-        formData.append('photo', this.file, this.file.name);
-        formData.append('title', this.title);
-        formData.append('description', this.description);
-        this.error = await this.$store.dispatch("upload", formData);
+        const club = await this.$store.dispatch("createClub", { name: this.name });
+        
+        const bookData = {
+          clubId: club.id,
+          title: this.title,
+          imgsrc: this.imgsrc
+        }
+
+        this.error = await this.$store.dispatch('startBook', bookData)
         if (!this.error) {
-          this.title = '';
-          this.description = '';
-          this.file = null;
+          this.name = ''
           this.$emit('uploadFinished');
         }
       } catch (error) {

@@ -1,10 +1,10 @@
 <template>
 <div>
-  <h2>Comments</h2>
+  <!-- <h2>Comments</h2> -->
   <div class="comment" v-for="comment in comments" v-bind:key="comment._id">
     <p>{{comment.text}}</p>
     <p class="commentDate">
-      <span v-if="comment.user.name">{{comment.user.name}}, </span>
+      <span v-if="comment.author.name">{{comment.author.name}}, </span>
       {{formatDate(comment.created)}}
     </p>
   </div>

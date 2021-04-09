@@ -15,7 +15,7 @@ const createPost = async (post, user) => {
 const getBookPosts = async (bookId) => {
   const posts = await daos.Post.find({
     book: bookId
-  }).populate('author')
+  }).sort({ created: -1 }).populate('author')
 
   return posts
 }

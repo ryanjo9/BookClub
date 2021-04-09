@@ -49,10 +49,18 @@ const addUserToClub = async (user, clubId) => {
   return club
 }
 
+const getAllClubs = async () => {
+  const clubs = await daos.Club.find().sort({
+    created: -1
+  }).populate('mod').populate('members').populate('activeBook')
+
+  return clubs
+}
 module.exports = {
   createClub,
   getClubById,
   getUserClubs,
   addUserToClub,
+  getAllClubs,
   Club: daos.Club
 }

@@ -24,6 +24,21 @@ router.post('/',
   }
 )
 
+// get all clubs
+router.get('/all',
+  async (req, res) => {
+    const clubs = await datasources.club.getAllClubs()
+
+    if (!clubs) {
+      res.status(404)
+
+      return res.send({ err: 'Clubs not found.' })
+    }
+
+    return res.send(clubs.map(mappers.mapClub))
+  }
+)
+
 // get club by id
 router.get('/:id',
   auth.verifyToken,

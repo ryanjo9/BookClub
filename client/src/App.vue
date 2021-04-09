@@ -27,6 +27,7 @@
   font-size: 18px;
   display: flex;
   min-height: 100%;
+  background-color: #dae0e6;
 }
 
 .pure-menu {

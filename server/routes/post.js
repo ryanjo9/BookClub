@@ -69,9 +69,16 @@ router.get('/:postId',
   async (req, res) => {
     const { params } = req
 
-    const posts = await datasources.post.getPostById(params.postId)
+    const post = await datasources.post.getPostById(params.postId)
 
-    return res.send(mappers.mapPost(posts))
+    if (!post) {
+      res.status(404)
+
+      return res.send({
+        err: 'Post not found'
+      })
+    }
+    return res.send(mappers.mapPost(post))
   }
 )
 

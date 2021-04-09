@@ -49,7 +49,7 @@ export default {
           password: this.password
         });
         if (this.error === "")
-          this.$router.push('mypage');
+          this.$router.push('profile');
       } catch (error) {
         console.log(error);
       }

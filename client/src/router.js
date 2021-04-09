@@ -5,6 +5,8 @@ import Register from './views/Register.vue'
 import MyPage from './views/MyPage.vue'
 import Login from './views/Login.vue'
 import Photo from './views/Photo.vue'
+import Club from './views/Club.vue'
+import Post from './views/Post.vue'
 
 Vue.use(Router)
 
@@ -36,5 +38,15 @@ export default new Router({
       name: 'photo',
       component: Photo
     },
+    {
+      path: '/club/:clubId',
+      name: 'club',
+      component: Club
+    },
+    {
+      path: '/post/:postId',
+      name: 'post',
+      component: Post
+    }
   ]
 })

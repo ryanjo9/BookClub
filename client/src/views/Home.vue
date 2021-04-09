@@ -1,25 +1,26 @@
 <template>
 <div class="home">
-  <image-gallery :photos="photos" />
+  <club-gallery :clubs="clubs" />
 </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import ImageGallery from '@/components/ImageGallery.vue'
+// import ImageGallery from '@/components/ImageGallery.vue'
+import ClubGallery from '@/components/ClubGallery.vue'
 
 export default {
   name: 'home',
   components: {
-    ImageGallery
+    ClubGallery
   },
   computed: {
-    photos() {
-      return this.$store.state.photos;
+    clubs() {
+      return this.$store.state.clubs;
     }
   },
   async created() {
-    await this.$store.dispatch("getAllPhotos");
+    await this.$store.dispatch("getAllClubs");
   },
 }
 </script>

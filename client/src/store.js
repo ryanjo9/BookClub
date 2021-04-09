@@ -10,6 +10,7 @@ export default new Vuex.Store({
     clubs: [],
     book: null,
     posts: [],
+    post: null,
     comments: [],
     /////////////
     photos: []
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     setBook(state, book) {
       state.book = book
     },
+    setPost(state, post) {
+      state.post = post
+    },
     setPosts(state, posts) {
       state.posts = posts
     },
@@ -34,7 +38,7 @@ export default new Vuex.Store({
       state.comments = comments;
     },
     addComment(state, comment) {
-      state.commments.push(comment);
+      state.comments.push(comment);
     },
 
     /////////////
@@ -80,28 +84,60 @@ export default new Vuex.Store({
       }
     },
     async createClub(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        const { data: club } = await axios.post('/api/clubs', data);
+        return club;
+      } catch (error) {
+        return error.response.data.message;
+      }
     },
     async getClub(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        if (data) {
+          let response = await axios.get("/api/clubs/" + data);
+          context.commit('setClubs', [response.data]);
+          context.commit('setBook', response.data.activeBook)
+        }
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
-    async getAllClubs(context, data) {
-      console.log(data)
-      console.log(context)
+    async getAllClubs(context) {
+      try {
+        const response = await axios.get('/api/clubs/all');
+        context.commit('setClubs', response.data)
+        return "";
+      } catch (error) {
+        return error.response.data.message;
+      }
     },
-    async getUerClubs(context, data) {
-      console.log(data)
-      console.log(context)
+    async getUserClubs(context) {
+      try {
+        let response = await axios.get("/api/clubs");
+        context.commit('setClubs', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
     async joinClub(context, data) {
       console.log(data)
       console.log(context)
     },
     async startBook(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        const { clubId } = data
+        const bookData = {
+          title: data.title,
+          imgsrc: data.imgsrc
+        }
+
+        await axios.post(`/api/books/${clubId}`, bookData);
+        return "";
+      } catch (error) {
+        return error.response.data.message;
+      }
     },
     async updateBook(context, data) {
       console.log(data)
@@ -111,33 +147,70 @@ export default new Vuex.Store({
       console.log(data)
       console.log(context)
     },
-    async getBook(context, data) {
-      console.log(data)
-      console.log(context)
+    async getBookById(context, data) {
+      try {
+        let response = await axios.get(`/api/books/${data}`);
+        context.commit('setBook', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
     async addPostToBook(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        const response = await axios.post(`/api/posts/${data.bookId}`, { text: data.text });
+        
+        context.commit('setPosts', [response.data])
+        return "";
+      } catch (error) {
+        return error.response.data.message;
+      }
     },
     async getBookPosts(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        let response = await axios.get(`/api/posts/book/${data}`);
+        context.commit('setPosts', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
-    async getUserPosts(context, data) {
-      console.log(data)
-      console.log(context)
+    async getUserPosts(context) {
+      try {
+        let response = await axios.get("/api/posts");
+        context.commit('setPosts', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
     async getPostById(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        let response = await axios.get(`/api/posts/${data}`);
+        context.commit('setPost', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
     async getPostComments(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        let response = await axios.get(`/api/comments/post/${data}`);
+        context.commit('setComments', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
     },
     async addComment(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        const response = await axios.post(`/api/comments/${data.postId}`, { text: data.text });
+        context.commit('addComment', response.data)
+        return "";
+      } catch (error) {
+
+        return error
+      }
     },
     async getUserComments(context, data) {
       console.log(data)
@@ -177,17 +250,6 @@ export default new Vuex.Store({
         if (data) {
           let response = await axios.get("/api/photos/one/" + data);
           context.commit('setPhotos', response.data);
-        }
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getComments(context, data) {
-      try {
-        if (data) {
-          let response = await axios.get("/api/comments/" + data);
-          context.commit('setComments', response.data);
         }
         return "";
       } catch (error) {

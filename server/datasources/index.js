@@ -11,6 +11,9 @@ mongoose.connect('mongodb://localhost:27017/bookclub', {
   useNewUrlParser: true
 })
 
+// Print mongoose queries
+// mongoose.set('debug', true)
+
 const closeMongoConnection = async () => {
   await mongoose.connection.close()
 }

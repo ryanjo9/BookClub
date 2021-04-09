@@ -54,9 +54,7 @@ const mapPost = (post) => {
     book: {
       id: post.book
     },
-    comments: post.comments.map(id => {
-      return { id }
-    })
+    comments: post.comments
   }
 }
 

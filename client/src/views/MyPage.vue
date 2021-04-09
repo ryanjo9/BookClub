@@ -3,21 +3,22 @@
   <div v-if="user">
     <div class="header">
       <div>
-        <h1>{{user.name}}</h1>
+        <h1>Hi, {{user.name}}</h1>
       </div>
       <div>
         <p>
-          <a @click="toggleUpload"><i class="far fa-image"></i></a>
-          <a href="#" @click="logout"><i class="fas fa-sign-out-alt"></i></a>
+          <a @click="toggleUpload">Create Club <i class="far fa-image"></i></a>
+          <a href="#" @click="logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
         </p>
       </div>
     </div>
     <escape-event @escape="escape"></escape-event>
     <uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
-    <image-gallery :photos="photos" />
+    <!-- <image-gallery :photos="photos" /> -->
+    <club-gallery :clubs="clubs" />
   </div>
   <div v-else>
-    <p>If you would like to upload photos, please register for an account or login.</p>
+    <p>If you would like to create or join a club, please register for an account or login.</p>
     <router-link to="/register" class="pure-button">Register</router-link> or
     <router-link to="/login" class="pure-button">Login</router-link>
   </div>
@@ -27,22 +28,24 @@
 <script>
 import EscapeEvent from '@/components/EscapeEvent.vue'
 import Uploader from '@/components/Uploader.vue'
-import ImageGallery from '@/components/ImageGallery.vue'
+// import ImageGallery from '@/components/ImageGallery.vue'
+import ClubGallery from '../components/ClubGallery.vue'
 
 export default {
   name: 'mypage',
   components: {
     EscapeEvent,
     Uploader,
-    ImageGallery,
-
+    // ImageGallery,
+    // ClubGaller
+    ClubGallery
   },
   computed: {
     user() {
       return this.$store.state.user;
     },
-    photos() {
-      return this.$store.state.photos;
+    clubs() {
+      return this.$store.state.clubs;
     }
   },
   data() {
@@ -52,7 +55,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getUser");
-    await this.$store.dispatch("getMyPhotos");
+    await this.$store.dispatch("getUserClubs");
   },
   methods: {
     async logout() {
@@ -71,7 +74,7 @@ export default {
     async uploadFinished() {
       this.show = false;
       try {
-        this.error = await this.$store.dispatch("getMyPhotos");
+        this.error = await this.$store.dispatch("getUserClubs");
       } catch (error) {
         console.log(error);
       }
@@ -81,6 +84,10 @@ export default {
 </script>
 
 <style scoped>
+a {
+  cursor: pointer;
+}
+
 .header {
   display: flex;
 }
