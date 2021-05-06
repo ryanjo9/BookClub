@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <club-gallery :clubs="clubs" />
+    <club-gallery :clubs="clubs" :user="user" @joinClub="joinClub"/>
 
-    <posts :posts="posts" />
+    <posts :posts="posts" :user="user" :club="clubs[0]" @joinClub="joinClub"/>
 </div>
 </template>
 
@@ -44,6 +44,11 @@ export default {
     methods: {
       escape() {
         this.show = false;
+      },
+      async joinClub(clubId) {
+        console.log('club join club received: ', clubId)
+        await this.$store.dispatch('joinClub', clubId)
+        await this.$store.dispatch('getClub', this.$route.params.clubId)
       }
     }
 }

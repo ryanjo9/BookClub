@@ -15,7 +15,7 @@ const createComment = async (comment, user) => {
 const getPostComments = async (postId) => {
   const comments = await daos.Comment.find({
     post: postId
-  }).sort({ created: -1 }).populate('author')
+  }).sort({ created: 1 }).populate('author')
 
   return comments
 }

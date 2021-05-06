@@ -1,12 +1,16 @@
 <template>
 <div>
   <div class="posts">
-    <div class="post">
+    <div v-if="isMember" class="post">
       <form v-on:submit.prevent="addPost">       
         <textarea v-model="text" placeholder="Add a post" v-autogrow></textarea>
         <br />
         <button type="submit" class="pure-button">Post</button>
       </form>
+    </div>
+
+    <div v-else class="post" id="joinClubBox" @click="joinClub">
+      <p>Join this club to participate in the discussion</p>
     </div>
 
     <div class="post" v-for="post in posts" v-bind:key="post.id" >
@@ -40,7 +44,27 @@ export default {
     'autogrow': TextareaAutogrowDirective 
   },
   props: {
-    posts: Array
+    posts: Array,
+    user: Object,
+    club: Object,
+  },
+  data() {
+    return {
+      text: ''
+    }
+  },
+  computed: {
+    isMember() {
+      if (!this.user) {
+        return false
+      }
+
+      const memberUser = this.club.members.filter(m => {
+        return m.username === this.user.username
+      })
+
+      return Boolean(memberUser.length)
+    }
   },
   methods: {
     formatDate(date) {
@@ -50,16 +74,19 @@ export default {
         return moment(date).format('d MMMM YYYY');
     },
     async addPost() {
-        let post = {
-          bookId: this.$store.state.book.id,
-          text: this.text,
-        }
-        this.error = await this.$store.dispatch("addPostToBook", post);
-        if (!this.error) {
-          this.text = '';
-          await this.$store.dispatch("getBookPosts", this.$store.state.book.id);
-        }
+      let post = {
+        bookId: this.$store.state.book.id,
+        text: this.text,
       }
+      this.error = await this.$store.dispatch("addPostToBook", post);
+      if (!this.error) {
+        this.text = '';
+        await this.$store.dispatch("getBookPosts", this.$store.state.book.id);
+      }
+    },
+    joinClub() {
+      this.$emit('joinClub', this.club.id)
+    }
   }
 }
 </script>
@@ -88,7 +115,7 @@ p {
 
 .post:hover {
   /* outline: #333 solid 1px; */
-  border: 1px solid #5c5c5c;
+  border: 1px solid #adadad;
 }
 
 .posts {
@@ -111,5 +138,8 @@ p {
   resize: none;
 }
 
+#joinClubBox {
+  cursor: pointer;
+}
 
 </style>

@@ -2,20 +2,18 @@
 <div>
   <div v-if="user">
     <div class="header">
-      <div>
-        <h1>Hi, {{user.name}}</h1>
+      <div class="greeting">
+        <p>Hi, {{user.name}}</p>
       </div>
-      <div>
+      <div class="upload">
         <p>
-          <a @click="toggleUpload">Create Club <i class="far fa-image"></i></a>
-          <a href="#" @click="logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+          <a @click="toggleUpload">Start a New Club <i class="fas fa-book"></i></a>
         </p>
       </div>
     </div>
     <escape-event @escape="escape"></escape-event>
     <uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
-    <!-- <image-gallery :photos="photos" /> -->
-    <club-gallery :clubs="clubs" />
+    <club-gallery :clubs="clubs" :user="user"/>
   </div>
   <div v-else>
     <p>If you would like to create or join a club, please register for an account or login.</p>
@@ -28,7 +26,6 @@
 <script>
 import EscapeEvent from '@/components/EscapeEvent.vue'
 import Uploader from '@/components/Uploader.vue'
-// import ImageGallery from '@/components/ImageGallery.vue'
 import ClubGallery from '../components/ClubGallery.vue'
 
 export default {
@@ -36,8 +33,6 @@ export default {
   components: {
     EscapeEvent,
     Uploader,
-    // ImageGallery,
-    // ClubGaller
     ClubGallery
   },
   computed: {
@@ -89,16 +84,30 @@ a {
 }
 
 .header {
-  display: flex;
+  display: grid;
 }
 
 .header a {
-  padding-left: 50px;
   color: #222;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .header svg {
   margin-top: 12px;
+}
+
+.greeting {
+  font-size: 1.75em;
+}
+
+.upload {
+  background: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.upload:hover {
+  border: 1px solid #adadad;
 }
 </style>

@@ -1,27 +1,20 @@
 <template>
   <div class="home">
     <a @click="$router.go(-1)">back</a>
-    <div v-if="post">
-      <img :src="book.imgsrc" />
-
-      <p>{{ post.text }}</p>
+    <div v-if="book">
+      <div>
+        <img :src="book.imgsrc" />
+      </div>
+      <div class="postBody">
+        <p class="username">
+          <span>{{ post.author.username }}</span>
+          {{ formatDate(post.created) }}
+        </p>
+        <p class="text">{{ post.text }}</p>
+      </div>
 
       <div class="comments">
         <comments :comments="comments" />
-      </div>
-
-      <div v-if="user">
-        <h3>Add a Comment</h3>
-        <form v-on:submit.prevent="addComment">
-          <textarea v-model="text"></textarea>
-          <br />
-          <button type="submit" class="pure-button">Post</button>
-        </form>
-      </div>
-      <div v-else>
-        <p>If you would like to add a comment, please register for an account or login.</p>
-        <router-link to="/register" class="pure-button">Register</router-link> or
-        <router-link to="/login" class="pure-button">Login</router-link>
       </div>
     </div>
     <div v-else>
@@ -32,6 +25,7 @@
 
 <script>
 import Comments from '@/components/Comments.vue'
+import moment from 'moment'
 
 export default {
     name: 'post',
@@ -71,17 +65,12 @@ export default {
       escape() {
         this.show = false;
       },
-      async addComment() {
-        let comment = {
-          postId: this.$route.params.postId,
-          text: this.text,
-        }
-        this.error = await this.$store.dispatch("addComment", comment);
-        if (!this.error) {
-          this.text = '';
-          await this.$store.dispatch("getPostComments", this.$route.params.postId)
-        }
-      }
+      formatDate(date) {
+        if (moment(date).diff(Date.now(), 'days') < 15)
+          return moment(date).fromNow();
+        else
+          return moment(date).format('d MMMM YYYY');
+      },
     }
 }
 </script>
@@ -94,4 +83,33 @@ export default {
   a {
     cursor: pointer;
   }
+
+  .postBody {
+    width: 100%;
+    padding: 4px;
+    display: inline-block;
+    width: 100%;
+    background-color: #ffffff;
+    max-width: 400px; 
+    border-radius: 4px;
+    border: 1px solid transparent;
+    margin: 1em 0 1em 0;
+
+  }
+
+  .username {
+    margin: 0;
+    font-size: 0.8em;
+  }
+
+  .text {
+    margin:0.5em 0 0 0;
+  }
+
+  img {
+    max-width: 150px;
+    max-height: 200px;
+    image-orientation: from-image;
+  }
+
 </style>

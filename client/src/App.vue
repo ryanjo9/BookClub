@@ -9,6 +9,9 @@
       <li class="pure-menu-item">
         <router-link to="/profile" class="pure-menu-link">Profile</router-link>
       </li>
+      <li class="pure-menu-item pure-menu-link" v-if="user">
+        <a href="#" @click="logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+      </li>
     </ul>
   </div>
   <div class="content">
@@ -16,6 +19,27 @@
   </div>
 </div>
 </template>
+
+<script>
+export default {
+  name: 'app',
+  computed: {
+    user() {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    async logout() {
+      try {
+        this.error = await this.$store.dispatch("logout");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }
+}
+</script>
+
 
 <style>
 /* https://color.adobe.com/Ventana-Azul-color-theme-2159606/?showPublished=true */
@@ -27,7 +51,7 @@
   font-size: 18px;
   display: flex;
   min-height: 100%;
-  background-color: #dae0e6;
+  background-color: #e8eef3;
 }
 
 .pure-menu {
@@ -35,8 +59,12 @@
   /* display: inline-block; */
   /* Or set the width explicitly: */
   text-align: left;
-  background: #000;
+  /* background: #000; */
+  margin-left: 100px;
 }
+
+
+
 
 .pure-menu-heading {
   color: #fff;
@@ -47,13 +75,24 @@
 }
 
 .pure-menu-link {
-  color: #fff;
+  color: #F2385A;
   padding: 10px 20px;
   font-weight: 800;
 }
 
 .pure-menu-link:hover {
-  background: #333;
+  background: #F2385A;
+  color: #FFFFFF;
+}
+
+.pure-menu-link a {
+  color: #F2385A;
+  text-decoration: none;
+}
+
+.pure-menu-link a:hover {
+  background: #F2385A;
+  color: #FFFFFF
 }
 
 .pure-menu-link.router-link-exact-active {

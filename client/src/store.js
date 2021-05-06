@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     clubs: [],
+    filteredClubs: [],
     book: null,
     posts: [],
     post: null,
@@ -39,6 +40,12 @@ export default new Vuex.Store({
     },
     addComment(state, comment) {
       state.comments.push(comment);
+    },
+    setFilteredClubs(state, clubs) {
+      state.filteredClubs = clubs
+    },
+    clearFilteredClubs(state) {
+      state.filteredClubs = []
     },
 
     /////////////
@@ -122,8 +129,11 @@ export default new Vuex.Store({
       }
     },
     async joinClub(context, data) {
-      console.log(data)
-      console.log(context)
+      try {
+        await axios.put(`/api/clubs/${data}/member`)
+      } catch (error) {
+        return ''
+      }
     },
     async startBook(context, data) {
       try {
@@ -215,6 +225,21 @@ export default new Vuex.Store({
     async getUserComments(context, data) {
       console.log(data)
       console.log(context)
+    },
+    async searchClubs(context, data) {
+      const { clubs } = context.state
+
+      const filteredClubs = clubs.filter((club) => {
+        return club.activeBook.title.toLowerCase().includes(data) ||
+               club.mod.username.toLowerCase().includes(data)     ||
+               club.name.toLowerCase().includes(data)
+      })
+
+      context.commit('setFilteredClubs', filteredClubs)
+    },
+    async clearSearchClubs(context) {
+      console.log('clearing searchCLubs')
+      context.commit('clearFilteredClubs')
     },
 
 
