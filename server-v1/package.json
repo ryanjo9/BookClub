@@ -1,0 +1,49 @@
+{
+  "name": "bookclub",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "npx standard",
+    "lint:fix": "npx standard --fix",
+    "serve": "node ./server.js",
+    "test": "cross-env TESTING=true npx jest --runInBand"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mdbvue": "^6.5.0",
+    "mongoose": "^5.12.1",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^5.16.0",
+    "jest": "^24.9.0",
+    "standard": "^14.3.4",
+    "supertest": "^4.0.2"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": [
+      "/node_modules/"
+    ]
+  },
+  "jest": {
+    "clearMocks": true,
+    "coverageDirectory": "coverage",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/e2e/"
+    ],
+    "globalSetup": "./tests/unit/setup.js",
+    "globalTeardown": "./tests/unit/teardown.js"
+  }
+}
