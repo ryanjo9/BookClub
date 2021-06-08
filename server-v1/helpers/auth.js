@@ -63,7 +63,7 @@ const removeOldTokens = (tokens) => {
 }
 
 module.exports = {
-  generateToken: generateToken,
-  verifyToken: verifyToken,
-  removeOldTokens: removeOldTokens
+  generateToken,
+  verifyToken,
+  removeOldTokens
 }
