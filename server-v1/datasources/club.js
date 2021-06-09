@@ -30,6 +30,13 @@ const getUserClubs = async (user) => {
   }).populate('mods').populate('members').populate('books').populate('createdBy')
 }
 
+const addBookToClub = async (clubId, book) => {
+  const update = { $push: { books: book } }
+  const options = { new: true, upsert: true }
+
+  return schemas.Club.findByIdAndUpdate(clubId, update, options)
+}
+
 const deleteClub = async (club) => {
 
 }
@@ -39,5 +46,6 @@ module.exports = {
   joinClub,
   getClubById,
   getUserClubs,
+  addBookToClub,
   deleteClub
 }

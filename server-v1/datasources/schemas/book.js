@@ -13,6 +13,10 @@ const bookSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Meeting'
   }],
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
   created: {
     type: Date,
     default: Date.now
