@@ -4,7 +4,10 @@ const bookSchema = new mongoose.Schema({
   title: String,
   author: String,
   imgSrc: String,
-  active: Boolean,
+  active: {
+    type: Boolean,
+    default: true
+  },
   club: {
     type: mongoose.Schema.ObjectId,
     ref: 'Club'

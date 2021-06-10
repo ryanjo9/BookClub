@@ -19,6 +19,14 @@ const meetingSchema = new mongoose.Schema({
     default: () => {
       return Date.now() + 24 * 60 * 60 * 60 * 7 * 1000 // one week from now in ms
     }
+  },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
 })
 
