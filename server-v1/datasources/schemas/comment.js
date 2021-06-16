@@ -18,7 +18,10 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  isEdited: Boolean,
+  isEdited: {
+    type: Boolean,
+    default: false
+  },
   editedDate: {
     type: Date,
     default: Date.now
@@ -27,7 +30,7 @@ const commentSchema = new mongoose.Schema({
   text: String,
   seenBy: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'user'
+    ref: 'User'
   }]
 })
 
