@@ -31,9 +31,17 @@ const getUserPosts = async (user) => {
   }).populate('author')
 }
 
+const addCommentToPost = async (postId, comment) => {
+  const update = { $push: { comments: comment } }
+  const options = { new: true, upsert: true }
+
+  return schemas.Post.findByIdAndUpdate(postId, update, options)
+}
+
 module.exports = {
   createPost,
   getPostById,
   getMeetingPosts,
-  getUserPosts
+  getUserPosts,
+  addCommentToPost
 }
