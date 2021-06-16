@@ -23,8 +23,16 @@ const getBookMeetings = async (bookId) => {
   }).populate('createdBy')
 }
 
+const addPostToMeeting = async (meetingId, post) => {
+  const update = { $push: { posts: post } }
+  const options = { new: true, upsert: true }
+
+  return schemas.Meeting.findByIdAndUpdate(meetingId, update, options)
+}
+
 module.exports = {
   createMeeting,
   getMeetingById,
-  getBookMeetings
+  getBookMeetings,
+  addPostToMeeting
 }
