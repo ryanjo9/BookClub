@@ -18,28 +18,22 @@ const users = {
 
 const clubs = {
   setupClub1: {
-    name: 'first setup club',
-    frequency: 'weekely'
+    name: 'first setup club'
   },
   setupClub2: {
-    name: 'second setup club',
-    frequency: 'monthly'
+    name: 'second setup club'
   },
   testClub1: {
-    name: 'first club',
-    frequency: 'weekely'
+    name: 'first club'
   },
   testClub2: {
-    name: 'second club',
-    frequency: 'monthly'
+    name: 'second club'
   },
   testClub3: {
-    name: 'thrid club',
-    frequency: 'weekly'
+    name: 'third club'
   },
   testClub4: {
-    name: 'fourth club',
-    frequency: 'weekly'
+    name: 'fourth club'
   }
 }
 
