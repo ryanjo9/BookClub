@@ -1,7 +1,7 @@
 <template>
 <div>
-  <div  v-for="club in clubs" v-bind:key="club.id">
-    <router-link :to="{ name: 'club', params: {clubId: club.id} }">
+  <div  v-for="club in clubs" v-bind:key="club._id">
+    <router-link :to="{ name: 'club', params: {clubId: club._id} }">
       <div class="club">
         <div v-if="club.activeBook">
           <img :src="club.activeBook.imgsrc" />
@@ -9,7 +9,7 @@
         <div class="clubInfo">
           <p class="clubName">{{club.name}}</p>
           <p class="clubDate">
-            <span v-if="club.mod.username">Mod: {{club.mod.username}}, </span>
+            <span v-if="club.mods.length && club.mods[0].username ">{{ formatMods(club.mods)}}</span>
           </p>
           <p class="clubDate">
             Created: {{formatDate(club.created)}}
@@ -21,7 +21,7 @@
             Book: {{club.activeBook.title}}
           </p>
           <div class="joinClub" v-if="!isMember(club.members)" v-on:click.stop>
-            <form @submit.prevent.stop="joinClub(club.id)">
+            <form @submit.prevent.stop="joinClub(club._id)">
               <button><i class="fas fa-plus-circle"/> Join</button>
             </form>
           </div>
@@ -61,6 +61,14 @@ export default {
     },
     joinClub(clubId) {
       this.$emit('joinClub', clubId)
+    },
+    formatMods(mods) {
+      if (mods.length > 1) {
+        const usernames = mods.map(m => m.username)
+        return `Mods: ${usernames.join(', ')}`
+      } else {
+        return `Mod: ${mods[0].username}`
+      }
     }
   }
 }

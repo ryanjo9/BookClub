@@ -11,9 +11,9 @@
           <form @submit.prevent="upload">
             <p>Club Name</p>
             <input v-model="name" placeholder="Club Name">
-            <p>Book Info</p>
+            <!-- <p>Book Info</p>
             <input v-model="title" placeholder="Book Title">
-            <input v-model="imgsrc" placeholder="Link to book image">
+            <input v-model="imgsrc" placeholder="Link to book image"> -->
             <button type="button" @click="close" class="pure-button">Close</button>
             <button type="submit" class="pure-button pure-button-secondary">Create</button>
           </form>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'Uploader',
+  name: 'ClubUploader',
   props: {
     show: Boolean,
   },
@@ -34,8 +34,8 @@ export default {
     return {
       error: '',
       name: '',
-      title: '',
-      imgsrc: ''
+      // title: '',
+      // imgsrc: ''
       }
   },
   methods: {
@@ -44,15 +44,15 @@ export default {
     },
     async upload() {
       try {
-        const club = await this.$store.dispatch("createClub", { name: this.name });
+        await this.$store.dispatch("createClub", { name: this.name });
         
-        const bookData = {
-          clubId: club.id,
-          title: this.title,
-          imgsrc: this.imgsrc
-        }
+        // const bookData = {
+        //   clubId: club.id,
+        //   title: this.title,
+        //   imgsrc: this.imgsrc
+        // }
 
-        this.error = await this.$store.dispatch('startBook', bookData)
+        // this.error = await this.$store.dispatch('startBook', bookData)
         if (!this.error) {
           this.name = ''
           this.$emit('uploadFinished');

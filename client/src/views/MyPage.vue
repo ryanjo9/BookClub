@@ -12,7 +12,7 @@
       </div>
     </div>
     <escape-event @escape="escape"></escape-event>
-    <uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
+    <club-uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
     <club-gallery :clubs="clubs" :user="user"/>
   </div>
   <div v-else>
@@ -25,14 +25,14 @@
 
 <script>
 import EscapeEvent from '@/components/EscapeEvent.vue'
-import Uploader from '@/components/Uploader.vue'
+import ClubUploader from '@/components/ClubUploader.vue'
 import ClubGallery from '../components/ClubGallery.vue'
 
 export default {
   name: 'mypage',
   components: {
     EscapeEvent,
-    Uploader,
+    ClubUploader,
     ClubGallery
   },
   computed: {

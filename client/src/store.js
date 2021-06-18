@@ -7,7 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
+    club: null,
     clubs: [],
+    books: [],
     filteredClubs: [],
     book: null,
     posts: [],
@@ -20,8 +22,14 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
+    setClub(state, club) {
+      state.club = club
+    },
     setClubs(state, clubs) {
       state.clubs = clubs
+    },
+    setBooks(state, books) {
+      state.books = books
     },
     setBook(state, book) {
       state.book = book
@@ -54,6 +62,7 @@ export default new Vuex.Store({
     }    
   },
   actions: {
+    ///// USER /////
     async register(context, data) {
       try {
         let response = await axios.post("/api/users", data);
@@ -90,6 +99,7 @@ export default new Vuex.Store({
         return "";
       }
     },
+    ///// CLUB /////
     async createClub(context, data) {
       try {
         const { data: club } = await axios.post('/api/clubs', data);
@@ -98,12 +108,11 @@ export default new Vuex.Store({
         return error.response.data.message;
       }
     },
-    async getClub(context, data) {
+    async getClub(context, clubId) {
       try {
-        if (data) {
-          let response = await axios.get("/api/clubs/" + data);
-          context.commit('setClubs', [response.data]);
-          context.commit('setBook', response.data.activeBook)
+        if (clubId) {
+          let response = await axios.get(`/api/clubs/${clubId}`);
+          context.commit('setClub', response.data);
         }
         return "";
       } catch (error) {
@@ -130,9 +139,32 @@ export default new Vuex.Store({
     },
     async joinClub(context, data) {
       try {
-        await axios.put(`/api/clubs/${data}/member`)
+        await axios.post(`/api/clubs/${data}/join`)
       } catch (error) {
         return ''
+      }
+    },
+    ///// BOOK ////
+    async getClubBooks(context, clubId) {
+      try {
+        const response = await axios.get(`/api/books/club/${clubId}`)
+
+        context.commit('setBooks', response.data)
+      } catch (error) {
+        return []
+      }
+    },
+    async addBookToClub(context, data) {
+      try {
+        const { clubId } = data
+        const bookData = {
+          title: data.title,
+          imgSrc: data.imgSrc
+        }
+
+        await axios.post(`/api/books/${clubId}`, bookData)
+      } catch (error) {
+        return error
       }
     },
     async startBook(context, data) {
