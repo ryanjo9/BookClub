@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div  v-for="club in clubs" v-bind:key="club.id">
+  <div  v-for="club in clubs" v-bind:key="club._id">
     <router-link :to="{ name: 'club', params: {clubId: club._id} }">
       <div class="club">
         <div v-if="club.activeBook">

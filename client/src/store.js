@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     clubs: [],
+    books: [],
     filteredClubs: [],
     book: null,
     posts: [],
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     setClubs(state, clubs) {
       state.clubs = clubs
+    },
+    setBooks(state, books) {
+      state.books = books
     },
     setBook(state, book) {
       state.book = book
@@ -54,6 +58,7 @@ export default new Vuex.Store({
     }    
   },
   actions: {
+    ///// USER /////
     async register(context, data) {
       try {
         let response = await axios.post("/api/users", data);
@@ -90,6 +95,7 @@ export default new Vuex.Store({
         return "";
       }
     },
+    ///// CLUB /////
     async createClub(context, data) {
       try {
         const { data: club } = await axios.post('/api/clubs', data);
@@ -133,6 +139,29 @@ export default new Vuex.Store({
         await axios.post(`/api/clubs/${data}/join`)
       } catch (error) {
         return ''
+      }
+    },
+    ///// BOOK ////
+    async getClubBooks(context, clubId) {
+      try {
+        const response = await axios.get(`/api/books/club/${clubId}`)
+
+        context.commit('setBooks', response.data)
+      } catch (error) {
+        return []
+      }
+    },
+    async addBookToClub(context, data) {
+      try {
+        const { clubId } = data
+        const bookData = {
+          title: data.title,
+          imgSrc: data.imgSrc
+        }
+
+        await axios.post(`/api/books/${clubId}`, bookData)
+      } catch (error) {
+        return error
       }
     },
     async startBook(context, data) {
