@@ -4,7 +4,7 @@ const createBook = async (req, res, next) => {
   const { user, body, params } = req
 
   const club = await datasources.club.getClubById(params.clubId)
-  console.log('body: ', body)
+
   const bookParams = {
     title: body.title,
     author: body.author,
