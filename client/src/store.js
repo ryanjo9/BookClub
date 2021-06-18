@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
+    club: null,
     clubs: [],
     books: [],
     filteredClubs: [],
@@ -20,6 +21,9 @@ export default new Vuex.Store({
   mutations: {
     setUser(state, user) {
       state.user = user;
+    },
+    setClub(state, club) {
+      state.club = club
     },
     setClubs(state, clubs) {
       state.clubs = clubs
@@ -104,12 +108,11 @@ export default new Vuex.Store({
         return error.response.data.message;
       }
     },
-    async getClub(context, data) {
+    async getClub(context, clubId) {
       try {
-        if (data) {
-          let response = await axios.get("/api/clubs/" + data);
-          context.commit('setClubs', [response.data]);
-          context.commit('setBook', response.data.activeBook)
+        if (clubId) {
+          let response = await axios.get(`/api/clubs/${clubId}`);
+          context.commit('setClub', response.data);
         }
         return "";
       } catch (error) {

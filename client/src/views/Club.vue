@@ -1,19 +1,37 @@
 <template>
   <div class="club">
-    <div class="header">
-      <div class="create">
-        <p>
-          <a @click="toggleUpload">Start a New Book <i class="fas fa-book"></i></a>
-        </p>
+    <div class="members">
+      <p>Members</p>
+      <div v-for="member in club.members" v-bind:key="member._id">
+        <p> {{ member.username }} </p>
       </div>
-      <escape-event @escape="escape"></escape-event>
-      <book-uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
     </div>
-    <book-gallery :books="books" :user="user" @joinClub="joinClub"/>
+
+    <div class="books">
+      <div class="header">
+        <div class="create">
+          <p>
+            <a @click="toggleUpload">Start a New Book <i class="fas fa-book"></i></a>
+          </p>
+        </div>
+        <escape-event @escape="escape"></escape-event>
+        <book-uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
+      </div>
+      <book-gallery :books="books" :user="user" @joinClub="joinClub"/>
+    </div>
+
+    <div class="clubInfo">
+      <p>Club Stats</p>
+      <p>Created: {{ formatDate(club.created) }}</p>
+      <p># of Books: {{ club.books.length }}</p>
+      <p># of Members: {{ club.members.length }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 import BookGallery from '@/components/BookGallery.vue'
 import BookUploader from '@/components/BookUploader.vue'
 import EscapeEvent from '@/components/EscapeEvent.vue';
@@ -64,12 +82,29 @@ export default {
       },
       escape() {
         this.show = false
-      }
+      },
+      formatDate(date) {
+        if (moment(date).diff(Date.now(), 'days') < 15)
+          return moment(date).fromNow();
+        else
+          return moment(date).format('d MMMM YYYY');
+      },
     }
 }
 </script>
 
 <style scoped>
+.club {
+  display: flex;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.books {
+  margin-left:  40px;
+  margin-right: 40px;
+  overflow-y: scroll;
+}
 
 a {
   cursor: pointer;
@@ -93,9 +128,27 @@ a {
   border-radius: 4px;
   text-align: center;
   margin-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .create:hover {
   border: 1px solid #adadad;
+}
+
+.members {
+  background: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right:15px;
+}
+
+.clubInfo {
+  background: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right:15px;
 }
 </style>
