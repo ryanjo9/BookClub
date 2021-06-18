@@ -130,7 +130,7 @@ export default new Vuex.Store({
     },
     async joinClub(context, data) {
       try {
-        await axios.put(`/api/clubs/${data}/member`)
+        await axios.post(`/api/clubs/${data}/join`)
       } catch (error) {
         return ''
       }

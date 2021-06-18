@@ -2,7 +2,7 @@ const express = require('express')
 const asyncHandler = require('express-async-handler')
 const auth = require('../helpers/auth')
 const datasourceSchemas = require('../datasources/schemas')
-const { createClub, getClubById, getUserClubs, joinClub } = require('../controllers/club')
+const { createClub, getClubById, getUserClubs, joinClub, getAllClubs } = require('../controllers/club')
 
 const router = express.Router()
 
@@ -12,6 +12,12 @@ router.post('/',
   datasourceSchemas.User.verify,
   asyncHandler(createClub),
   (req, res) => res.send(req.club)
+)
+
+// Get All Clubs
+router.get('/all',
+  asyncHandler(getAllClubs),
+  (req, res) => res.send(req.clubs)
 )
 
 // Get Club by Id

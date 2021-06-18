@@ -51,11 +51,20 @@ const joinClub = async (req, res, next) => {
   next()
 }
 
+const getAllClubs = async (req, res, next) => {
+  const clubs = await datasources.club.getAllClubs()
+
+  req.clubs = clubs
+
+  next()
+}
+
 // Remove member
 
 module.exports = {
   createClub,
   getClubById,
   getUserClubs,
-  joinClub
+  joinClub,
+  getAllClubs
 }

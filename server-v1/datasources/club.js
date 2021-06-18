@@ -41,11 +41,18 @@ const deleteClub = async (club) => {
 
 }
 
+const getAllClubs = async () => {
+  return schemas.Club.find().sort({
+    created: -1
+  }).populate('modes').populate('members').populate('books').populate('createdBy')
+}
+
 module.exports = {
   createClub,
   joinClub,
   getClubById,
   getUserClubs,
   addBookToClub,
-  deleteClub
+  deleteClub,
+  getAllClubs
 }
