@@ -9,7 +9,6 @@
       </router-link>
     </div>
     <div class="meetings">
-      <p>Meeting Gallery</p>
       <div class="create" @click="toggleUpload">
           <a>New Meeting<i class="fa fa-users" /></a>
       </div>
@@ -93,10 +92,21 @@ a {
   margin-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  border: 1px solid transparent;
 }
 
 .create:hover {
   border: 1px solid #adadad;
   cursor: pointer;
+}
+
+.bookInfo {
+  background: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 15px;
 }
 </style>
