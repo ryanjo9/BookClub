@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="meeting" v-for="meeting in meetings" v-bind:key="meeting._id">
-      <p>Reading section: {{meeting.reading}}</p>
-      <p>Start: {{ formatDate(meeting.startDate) }}</p>
-      <p>End: {{ formatDate(meeting.endDate) }}</p>
-      <p>{{ meeting.posts.length || 0 }} posts</p>
+      <router-link :to="{ name: 'meeting', params: {meetingId: meeting._id} }">
+        <p>Reading section: {{meeting.reading}}</p>
+        <p>Start: {{ formatDate(meeting.startDate) }}</p>
+        <p>End: {{ formatDate(meeting.endDate) }}</p>
+        <p>{{ meeting.posts.length || 0 }} posts</p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -42,5 +44,11 @@
   .meeting:hover {
     border: 1px solid #adadad;
     cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000
+
   }
 </style>

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     clubs: [],
     book: null,
     books: [],
+    meeting: null,
     meetings: [],
     filteredClubs: [],
     posts: [],
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     ///// MEETING /////
     setMeetings(state, meetings) {
       state.meetings = meetings
+    },
+    setMeeting(state, meeting) {
+      state.meeting = meeting
     },
     ///// POST /////
     setPost(state, post) {
@@ -223,6 +227,25 @@ export default new Vuex.Store({
         return error
       }
     },
+    async getMeetingById(context, meetingId) {
+      try {
+        let response = await axios.get(`/api/meetings/${meetingId}`);
+        context.commit('setMeeting', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
+    },
+    async getMeetingPosts(context, meetingId) {
+      try {
+        const response = await axios.get(`/api/posts/meeting/${meetingId}`)
+
+        context.commit('setPosts', response.data)
+      } catch (error) {
+        return error
+      }
+    },
+    ///// OLD /////
     async addPostToBook(context, data) {
       try {
         const response = await axios.post(`/api/posts/${data.bookId}`, { text: data.text });
