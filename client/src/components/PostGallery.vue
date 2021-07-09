@@ -4,7 +4,7 @@
       <p>{{post.text}}</p>
       <p>{{ post.author.username }}</p>
       <p>Created: {{ formatDate(post.created) }}</p>
-      <p>{{ post.comments.length || 0 }} posts</p>
+      <p>{{ post.comments.length || 0 }} comments</p>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@
 
 <style scoped>
   .post {
-    margin: 0 0 0em;
+    margin-bottom: 10px;
     width: 100%;
     background-color: #ffffff;
     padding: 15px;

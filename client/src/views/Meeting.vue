@@ -1,5 +1,13 @@
 <template>
   <div class="meeting">
+    <div class="posts">
+      <div class="create" @click="toggleUpload">
+          <a>New Post<i class="fa fa-users" /></a>
+          <post-uploader :user="user" @uploadFinished="uploadFinished" />
+      </div>
+
+      <post-gallery :posts="posts" :user="user" /> 
+    </div>
     <div class="meetingInfo">
       <h1>Meeting Page</h1>
       <p>{{ meeting.reading }}</p>
@@ -10,29 +18,19 @@
         <p>Book id: {{ meeting.book }} </p>
       </router-link>
     </div>
-    <div class="posts">
-      <div class="create" @click="toggleUpload">
-          <a>New Post<i class="fa fa-users" /></a>
-      </div>
-      <escape-event @escape="escape" />
-      <!-- <meeting-uploader :show="show" @escape="escape" /> -->
-      <post-gallery :posts="posts" :user="user" /> 
-    </div>
   </div>
 </template>
 
 <script>
 import PostGallery from '@/components/PostGallery.vue'
-import EscapeEvent from '../components/EscapeEvent.vue';
 import moment from 'moment';
-// import MeetingUploader from '../components/MeetingUploader.vue';
+import PostUploader from '../components/PostUploader.vue';
 
 export default {
   name: 'meeting',
   components: {
     PostGallery,
-    EscapeEvent,
-    // MeetingUploader
+    PostUploader
   },
   computed: {
     user() {
@@ -43,6 +41,9 @@ export default {
     },
     posts() {
       return this.$store.state.posts
+    },
+    computeShow() {
+      return this.show
     }
   },
   async created() {
@@ -59,13 +60,10 @@ export default {
     toggleUpload() {
       this.show = true
     },
-    escape() {
-      this.show = false
-    },
     async uploadFinished() {
       this.show = false
 
-      await this.$store.dispatch('getBookMeetings', this.$route.params.bookId)
+      await this.$store.dispatch('getMeetingPosts', this.$route.params.meetingId)
     },
     formatDate(date) {
       // if (moment(date).diff(Date.now(), 'days') < 15)
@@ -99,8 +97,10 @@ a {
   border-radius: 4px;
   text-align: center;
   margin-bottom: 15px;
+  margin-right: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  width: 100%;
   border: 1px solid transparent;
 }
 
@@ -116,6 +116,7 @@ a {
   margin-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-right: 15px;
+  margin-left: 15px;
 }
+
 </style>

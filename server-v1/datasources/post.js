@@ -22,13 +22,13 @@ const getPostById = async (postId) => {
 const getMeetingPosts = async (meetingId) => {
   return schemas.Post.find({
     meeting: meetingId
-  }).populate('author')
+  }).populate('author').sort({ created: -1 })
 }
 
 const getUserPosts = async (user) => {
   return schemas.Post.find({
     author: user._id
-  }).populate('author')
+  }).populate('author').sort({ created: -1 })
 }
 
 const addCommentToPost = async (postId, comment) => {

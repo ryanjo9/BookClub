@@ -245,6 +245,19 @@ export default new Vuex.Store({
         return error
       }
     },
+    ///// POST /////
+    async addPostToMeeting(context, data) {
+      try {
+        const { meetingId } = data
+        const postData = {
+          text: data.text
+        }
+        
+        await axios.post(`/api/posts/${meetingId}`, postData)
+      } catch (error) {
+        return error
+      }
+    },
     ///// OLD /////
     async addPostToBook(context, data) {
       try {

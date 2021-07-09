@@ -35,7 +35,7 @@ export default {
       reading: '',
       startDate: '',
       endDate: '',
-      }
+    }
   },
   methods: {
     close() {
