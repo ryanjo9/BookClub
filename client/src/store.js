@@ -9,9 +9,10 @@ export default new Vuex.Store({
     user: null,
     club: null,
     clubs: [],
-    books: [],
-    filteredClubs: [],
     book: null,
+    books: [],
+    meetings: [],
+    filteredClubs: [],
     posts: [],
     post: null,
     comments: [],
@@ -19,21 +20,29 @@ export default new Vuex.Store({
     photos: []
   },
   mutations: {
+    ///// USER /////
     setUser(state, user) {
       state.user = user;
     },
+    ///// CLUB /////
     setClub(state, club) {
       state.club = club
     },
     setClubs(state, clubs) {
       state.clubs = clubs
     },
+    ///// BOOK /////
     setBooks(state, books) {
       state.books = books
     },
     setBook(state, book) {
       state.book = book
     },
+    ///// MEETING /////
+    setMeetings(state, meetings) {
+      state.meetings = meetings
+    },
+    ///// POST /////
     setPost(state, post) {
       state.post = post
     },
@@ -167,6 +176,15 @@ export default new Vuex.Store({
         return error
       }
     },
+    async getBookMeetings(context, bookId) {
+      try {
+        const response = await axios.get(`/api/meetings/book/${bookId}`)
+
+        context.commit('setMeetings', response.data)
+      } catch (error) {
+        return error
+      }
+    },
     async startBook(context, data) {
       try {
         const { clubId } = data
@@ -181,21 +199,28 @@ export default new Vuex.Store({
         return error.response.data.message;
       }
     },
-    async updateBook(context, data) {
-      console.log(data)
-      console.log(context)
-    },
-    async completeBook(context, data) {
-      console.log(data)
-      console.log(context)
-    },
-    async getBookById(context, data) {
+    async getBookById(context, bookId) {
       try {
-        let response = await axios.get(`/api/books/${data}`);
+        let response = await axios.get(`/api/books/${bookId}`);
         context.commit('setBook', response.data);
         return "";
       } catch (error) {
         return "";
+      }
+    },
+    ///// MEETING /////
+    async addMeetingToBook(context, data) {
+      try {
+        const { bookId } = data
+        const meetingData = {
+          reading: data.reading,
+          startDate: data.startDate,
+          endDate: data.endDate
+        }
+
+        await axios.post(`/api/meetings/${bookId}`, meetingData)
+      } catch (error) {
+        return error
       }
     },
     async addPostToBook(context, data) {

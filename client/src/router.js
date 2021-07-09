@@ -7,6 +7,7 @@ import Login from './views/Login.vue'
 import Photo from './views/Photo.vue'
 import Club from './views/Club.vue'
 import Post from './views/Post.vue'
+import Book from './views/Book.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/post/:postId',
       name: 'post',
       component: Post
+    },
+    {
+      path: '/book/:bookId',
+      name: 'book',
+      component: Book
     }
   ]
 })
