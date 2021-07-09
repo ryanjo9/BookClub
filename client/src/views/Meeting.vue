@@ -15,14 +15,14 @@
           <a>New Post<i class="fa fa-users" /></a>
       </div>
       <escape-event @escape="escape" />
-      <!-- <meeting-uploader :show="show" @escape="escape" />
-      <meeting-gallery :meetings="meetings" :user="user" /> -->
+      <!-- <meeting-uploader :show="show" @escape="escape" /> -->
+      <post-gallery :posts="posts" :user="user" /> 
     </div>
   </div>
 </template>
 
 <script>
-// import MeetingGallery from '@/components/MeetingGallery.vue'
+import PostGallery from '@/components/PostGallery.vue'
 import EscapeEvent from '../components/EscapeEvent.vue';
 import moment from 'moment';
 // import MeetingUploader from '../components/MeetingUploader.vue';
@@ -30,7 +30,7 @@ import moment from 'moment';
 export default {
   name: 'meeting',
   components: {
-    // MeetingGallery,
+    PostGallery,
     EscapeEvent,
     // MeetingUploader
   },
