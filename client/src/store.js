@@ -288,49 +288,7 @@ export default new Vuex.Store({
         return error
       }
     },
-    ///// OLD /////
-    async addPostToBook(context, data) {
-      try {
-        const response = await axios.post(`/api/posts/${data.bookId}`, { text: data.text });
-        
-        context.commit('setPosts', [response.data])
-        return "";
-      } catch (error) {
-        return error.response.data.message;
-      }
-    },
-    async getBookPosts(context, data) {
-      try {
-        let response = await axios.get(`/api/posts/book/${data}`);
-        context.commit('setPosts', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getUserPosts(context) {
-      try {
-        let response = await axios.get("/api/posts");
-        context.commit('setPosts', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async addComment(context, data) {
-      try {
-        const response = await axios.post(`/api/comments/${data.postId}`, { text: data.text });
-        context.commit('addComment', response.data)
-        return "";
-      } catch (error) {
-
-        return error
-      }
-    },
-    async getUserComments(context, data) {
-      console.log(data)
-      console.log(context)
-    },
+    ///// SEARCH /////
     async searchClubs(context, data) {
       const { clubs } = context.state
 
@@ -345,46 +303,6 @@ export default new Vuex.Store({
     async clearSearchClubs(context) {
       console.log('clearing searchCLubs')
       context.commit('clearFilteredClubs')
-    },
-
-
-    ////////
-    async upload(context, data) {
-      try {
-        await axios.post('/api/photos', data);
-        return "";
-      } catch (error) {
-        return error.response.data.message;
-      }
-    },
-    async getMyPhotos(context) {
-      try {
-        let response = await axios.get("/api/photos");
-        context.commit('setPhotos', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getAllPhotos(context) {
-      try {
-        let response = await axios.get("/api/photos/all");
-        context.commit('setPhotos', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getPhoto(context, data) {
-      try {
-        if (data) {
-          let response = await axios.get("/api/photos/one/" + data);
-          context.commit('setPhotos', response.data);
-        }
-        return "";
-      } catch (error) {
-        return "";
-      }
     }
   }
 })
