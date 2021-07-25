@@ -4,7 +4,6 @@ import Home from './views/Home.vue'
 import Register from './views/Register.vue'
 import MyPage from './views/MyPage.vue'
 import Login from './views/Login.vue'
-import Photo from './views/Photo.vue'
 import Club from './views/Club.vue'
 import Post from './views/Post.vue'
 import Book from './views/Book.vue'
@@ -34,11 +33,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/photo',
-      name: 'photo',
-      component: Photo
     },
     {
       path: '/club/:clubId',
