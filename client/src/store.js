@@ -258,6 +258,36 @@ export default new Vuex.Store({
         return error
       }
     },
+    async getPostById(context, postId) {
+      try {
+        let response = await axios.get(`/api/posts/${postId}`);
+        context.commit('setPost', response.data);
+        return "";
+      } catch (error) {
+        return "";
+      }
+    },
+    ///// COMMENTS /////
+    async getPostComments(context, postId) {
+      try {
+        const response = await axios.get(`/api/comments/post/${postId}`)
+        context.commit('setComments', response.data)
+      } catch (error) {
+        return error
+      }
+    },
+    async addCommentToPost(context, data) {
+      try {
+        const { postId } = data
+        const commentData = {
+          text: data.text
+        }
+        
+        await axios.post(`/api/comments/${postId}`, commentData)
+      } catch (error) {
+        return error
+      }
+    },
     ///// OLD /////
     async addPostToBook(context, data) {
       try {
@@ -282,24 +312,6 @@ export default new Vuex.Store({
       try {
         let response = await axios.get("/api/posts");
         context.commit('setPosts', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getPostById(context, data) {
-      try {
-        let response = await axios.get(`/api/posts/${data}`);
-        context.commit('setPost', response.data);
-        return "";
-      } catch (error) {
-        return "";
-      }
-    },
-    async getPostComments(context, data) {
-      try {
-        let response = await axios.get(`/api/comments/post/${data}`);
-        context.commit('setComments', response.data);
         return "";
       } catch (error) {
         return "";
