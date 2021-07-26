@@ -1,5 +1,5 @@
 <template>
-  <div class="meeting">
+  <div class="meeting" v-if="meeting">
     <div class="posts">
       <div class="create" @click="toggleUpload">
           <a>New Post<i class="fa fa-users" /></a>
