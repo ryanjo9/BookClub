@@ -1,5 +1,5 @@
 <template>
-  <div class="post">
+  <div class="post" v-if="post">
     <div class="comments">
       <div class="create" @click="toggleUpload">
           <a>New Comment<i class="fa fa-users" /></a>

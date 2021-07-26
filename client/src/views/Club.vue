@@ -1,5 +1,5 @@
 <template>
-  <div class="club">
+  <div class="club" v-if="club">
     <div class="members">
       <p>Members</p>
       <div v-for="member in club.members" v-bind:key="member._id">
