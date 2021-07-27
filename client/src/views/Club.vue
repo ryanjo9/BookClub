@@ -1,31 +1,24 @@
 <template>
   <div class="club" v-if="club">
-    <div class="members">
-      <p>Members</p>
-      <div v-for="member in club.members" v-bind:key="member._id">
-        <p> {{ member.username }} </p>
-      </div>
-    </div>
-
     <div class="books">
-      <div class="header">
-        <div class="create">
-          <p>
-            <a @click="toggleUpload">Start a New Book <i class="fas fa-book"></i></a>
-          </p>
-        </div>
-        <escape-event @escape="escape"></escape-event>
-        <book-uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
+      <div class="create">
+          <a @click="toggleUpload">New Book <i class="fas fa-book"></i></a>
       </div>
+      <escape-event @escape="escape"></escape-event>
+      <book-uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
       <book-gallery :books="books" :user="user" @joinClub="joinClub"/>
     </div>
 
-    <div class="clubInfo">
-      <p>Club Stats</p>
-      <p>Created: {{ formatDate(club.created) }}</p>
-      <p># of Books: {{ club.books.length }}</p>
-      <p># of Members: {{ club.members.length }}</p>
+    <div>
+      <club-info :clubId="this.$route.params.clubId" :user="user"/>
+      <div class="members">
+        <p>Members</p>
+        <div v-for="member in club.members" v-bind:key="member._id">
+          <p> {{ member.username }} </p>
+        </div>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -34,7 +27,8 @@ import moment from 'moment'
 
 import BookGallery from '@/components/BookGallery.vue'
 import BookUploader from '@/components/BookUploader.vue'
-import EscapeEvent from '@/components/EscapeEvent.vue';
+import EscapeEvent from '@/components/EscapeEvent.vue'
+import ClubInfo from '@/components/ClubInfo.vue'
 
 export default {
     name: 'club',
@@ -42,6 +36,7 @@ export default {
       BookGallery,
       BookUploader,
       EscapeEvent,
+      ClubInfo
     },
     computed: {
       user() {
@@ -104,19 +99,11 @@ export default {
   margin-left:  40px;
   margin-right: 40px;
   overflow-y: scroll;
+  width: 312px;
 }
 
 a {
   cursor: pointer;
-}
-
-.header {
-  display: grid;
-}
-
-.header a {
-  color: #222;
-  font-size: 1.5em;
 }
 
 .header svg {
@@ -130,10 +117,12 @@ a {
   margin-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  border: 1px solid transparent;
 }
 
 .create:hover {
   border: 1px solid #adadad;
+  cursor: pointer;
 }
 
 .members {

@@ -8,15 +8,16 @@
 
       <post-gallery :posts="posts" :user="user" /> 
     </div>
-    <div class="meetingInfo">
-      <h1>Meeting Page</h1>
-      <p>{{ meeting.reading }}</p>
-      <p>Start: {{ formatDate(meeting.startDate) }}</p>
-      <p>End: {{ formatDate(meeting.endDate) }}</p>
 
-      <router-link :to="{ name: 'book', params: {bookId: meeting.book} }">
-        <p>Book id: {{ meeting.book }} </p>
-      </router-link>
+    <div>
+      <div class="meetingInfo">
+        <h1>Meeting Page</h1>
+        <p>{{ meeting.reading }}</p>
+        <p>Start: {{ formatDate(meeting.startDate) }}</p>
+        <p>End: {{ formatDate(meeting.endDate) }}</p>
+      </div>
+
+      <book-info :bookId="meeting.book" :user="user" />
     </div>
   </div>
 </template>
@@ -25,12 +26,15 @@
 import PostGallery from '@/components/PostGallery.vue'
 import moment from 'moment';
 import PostUploader from '../components/PostUploader.vue';
+import BookInfo from '../components/BookInfo.vue'
+
 
 export default {
   name: 'meeting',
   components: {
     PostGallery,
-    PostUploader
+    PostUploader,
+    BookInfo
   },
   computed: {
     user() {
@@ -113,10 +117,13 @@ a {
   background: #ffffff;
   border-radius: 4px;
   text-align: center;
-  margin-bottom: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: 15px;
+  width: 312px;
 }
 
+.posts {
+  margin-left:  40px;
+  margin-right: 40px;
+  overflow-y: scroll;
+  width: 312px;
+}
 </style>

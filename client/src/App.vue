@@ -101,7 +101,7 @@ export default {
 }
 
 .content {
-  margin: 50px 100px;
+  margin: 50px 50px;
 }
 
 html {

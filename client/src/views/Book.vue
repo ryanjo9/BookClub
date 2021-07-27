@@ -1,20 +1,17 @@
 <template>
   <div class="book" v-if="book">
-    <div class="bookInfo">
-      <h1>Book Page</h1>
-      <p>{{ book.title }}</p>
-      <img :src="book.imgSrc" />
-      <router-link :to="{ name: 'club', params: {clubId: book.club} }">
-        <p>Club id: {{ book.club }} </p>
-      </router-link>
-    </div>
     <div class="meetings">
       <div class="create" @click="toggleUpload">
-          <a>New Meeting<i class="fa fa-users" /></a>
+          <a>New Meeting <i class="fa fa-users" /></a>
       </div>
       <escape-event @escape="escape" />
       <meeting-uploader :show="show" @escape="escape" />
       <meeting-gallery :meetings="meetings" :user="user" />
+    </div>
+    
+    <div>
+      <book-info :bookId="book._id" :user="user" />
+      <club-info :clubId="book.club" :user="user"/>
     </div>
   </div>
 </template>
@@ -23,13 +20,17 @@
 import MeetingGallery from '@/components/MeetingGallery.vue'
 import EscapeEvent from '../components/EscapeEvent.vue';
 import MeetingUploader from '../components/MeetingUploader.vue';
+import ClubInfo from '@/components/ClubInfo.vue'
+import BookInfo from '../components/BookInfo.vue'
 
 export default {
   name: 'book',
   components: {
     MeetingGallery,
     EscapeEvent,
-    MeetingUploader
+    MeetingUploader,
+    ClubInfo,
+    BookInfo
   },
   computed: {
     user() {
@@ -79,10 +80,11 @@ a {
   align-items: flex-start;
 }
 
-.book img {
-  max-width: 150px;
-  max-height: 200px;
-  image-orientation: from-image;
+.meetings {
+  margin-left:  40px;
+  margin-right: 40px;
+  overflow-y: scroll;
+  width: 312px;
 }
 
 .create {
